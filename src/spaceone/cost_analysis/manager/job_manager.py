@@ -29,7 +29,7 @@ class JobManager(BaseManager):
             start_time: datetime = datetime.utcnow() - timedelta(days=365)
             start_time = start_time.replace(day=1)
 
-        start_time = start_time.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        start_time = start_time.replace(day=1, hour=0, minute=0, second=0, microsecond=0, tzinfo=None)
 
         months = self._get_months_from_start_time(start_time)
 
