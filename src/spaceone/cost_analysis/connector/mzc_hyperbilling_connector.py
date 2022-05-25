@@ -1,6 +1,7 @@
 import logging
 import requests
 import time
+import copy
 
 from spaceone.core.auth.jwt.jwt_util import JWTUtil
 from spaceone.core.transaction import Transaction
@@ -27,7 +28,7 @@ class MZCHyperBillingConnector(BaseConnector):
         super().__init__(transaction, config)
         self.endpoint = None
         self.account_id = None
-        self.headers = _DEFAULT_HEADERS
+        self.headers = copy.deepcopy(_DEFAULT_HEADERS)
 
     def create_session(self, options: dict, secret_data: dict, schema: str = None) -> None:
         self._check_secret_data(secret_data)
@@ -76,7 +77,7 @@ class MZCHyperBillingConnector(BaseConnector):
             'kind': 'usage_detail'
         }
 
-        _LOGGER.debug(f'[get_cost_data] {url} => {data}')
+        _LOGGER.debug(f'[get_cost_data] ({self.account_id}) {url} => {data}')
 
         response = requests.get(url, params=data, headers=self.headers)
 
